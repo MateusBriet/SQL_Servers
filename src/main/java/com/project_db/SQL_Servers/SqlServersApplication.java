@@ -49,5 +49,27 @@ public class SqlServersApplication {
 			System.err.println("Mensagem: " + e.getMessage());
 			// TODO: handle exception
 		}
+		
+		try (Connection conn = DriverManager.getConnection(URL, USUARIO, SENHA)){
+			
+			String sql = "SELECT Nome_Solicitante FROM dbo.Solicitacoes";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				String nomeSolicitante = rs.getString("Nome_Solicitante");
+				System.out.println("Nome_Solicitante: " + nomeSolicitante);
+			} else {
+				System.out.print("Solicitante não encontrado");
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		} catch (SQLException e) {
+			System.err.println("Falha ao encontrar o Silicitante");
+			System.err.println("Mensagem: " + e.getMessage());
+			// TODO: handle exception
+		}
 	}
 }
